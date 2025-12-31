@@ -2,14 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Neon Drifter</title>
+    <link rel="stylesheet" href="css/utils.css" />
+    <title>Neon Drifter: Platformer</title>
   </head>
   <body>
-    <div class="container">
-      <div class="center-screen">
-        <h1>Hello Neon Drifter</h1>
+    <div
+      id="game-container"
+      class="f-height-100 f-width-100 flex flex-center relative"
+    >
+      <canvas id="game-canvas"></canvas>
+
+      <!-- UI Layer -->
+      <div id="ui-layer">
+        <div class="font-weight-bold font-size-title">
+          NEON DRIFTER
+          <span
+            id="level-indicator"
+            class="font-weight-normal font-size-subtitle opacity-70"
+            >LEVEL {fetch from game state}</span
+          >
+        </div>
+        <div class="mt-10" id="desktop-hints">
+          <span class="font-size-subtitle opacity-70"
+            >ARROWS/WASD to Move • SPACE to Jump • SHIFT/Z to Dash</span
+          >
+        </div>
+        <div class="flex align-center mt-10">
+          <span class="font-size-subtitle mr-10">INSTABILITY:</span>
+          <div class="glitch-bar-ui">
+            <div
+              class="f-width-0 f-height-100 glitch-bar-fill"
+              id="glitch-bar"
+            ></div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
