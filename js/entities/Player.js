@@ -17,6 +17,14 @@ class Player extends Entity {
     this.dashTimer = 0;
     this.isDashing = false;
     this.facingRight = true;
+    this.glitchDistance = 1;
+    this.glitchCharge = 0;
+
+    this.isGlitching = false;
+    this.glitchTimer = 0;
+    this.glitchDuration = 8; // How many frames the dash takes
+    this.glitchstartX = 0;
+    this.glitchTargetX = 0;
   }
 
   update(input) {
@@ -31,6 +39,7 @@ class Player extends Entity {
     this.grounded = false;
     this.checkDetection(false);
     this.checkBoundaries();
+    this.handleGlitchCharge();
   }
 
   handleMovement(input) {
@@ -89,15 +98,46 @@ class Player extends Entity {
     this.dead = true;
   }
 
+  handleGlitchCharge() {
+    if (Math.abs(this.vx) > 1 || Math.abs(this.vy) > 1) {
+      this.glitchCharge += 0.5 + Math.random();
+      if (this.glitchCharge >= CONSTANTS.GLITCH_THRESHOLD) {
+        this.glitchCharge = CONSTANTS.GLITCH_THRESHOLD;
+        this.triggerGlitchEffect();
+      }
+    } else {
+      this.glitchCharge = Math.max(0, this.glitchCharge - 0.5);
+    }
+  }
+
+  triggerGlitchEffect() {
+    this.glitchCharge = 0;
+    const direction = this.facingRight ? 1 : -1;
+    this.x += direction * 200;
+    this.vx = 0;
+  }
+
+  shake(ctx) {
+    if (this.glitchCharge > 20) {
+      const shakeIntensity =
+        (this.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 4;
+      const shakeX = (Math.random() - 0.5) * shakeIntensity;
+      const shakeY = (Math.random() - 0.5) * shakeIntensity;
+      ctx.translate(shakeX, shakeY);
+    }
+  }
+
   draw(ctx) {
     if (Math.abs(this.vx) > 0.1) {
       this.facingRight = this.vx > 0;
     }
     ctx.save();
-    // Move origin to center of player to add some movement effects to the player.
+    // Move origin to bottom-left of player to add some movement effects to the player.
     ctx.translate(this.x, this.y + this.height);
+    // Adding a skew to make the player look like they're leaning as they move forward.
     const skew = this.vx * -0.02;
     ctx.transform(1, 0, skew, 1, 0, 0);
+    this.shake(ctx);
     // Draw the body
     ctx.fillStyle = this.color;
     ctx.shadowBlur = 20;

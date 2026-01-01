@@ -1,8 +1,11 @@
+import { CONSTANTS } from "./constant.js";
 import { GameState } from "./state.js";
 import Camera from "./systems/Camera.js";
 import GameSystem from "./systems/GameSystem.js";
 import InputSystem from "./systems/InputSystem.js";
 import LevelManager from "./systems/LevelManager.js";
+
+const glitchBar = document.getElementById("glitch-bar");
 
 const game = new GameSystem("game-canvas");
 const levelManager = new LevelManager();
@@ -20,6 +23,10 @@ function gameLoop() {
   if (GameState.player) {
     GameState.player.update(inputSystem);
     camera.update(GameState.player);
+    const pct =
+      (GameState.player.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 100;
+    glitchBar.style.width = `${pct}%`;
+    glitchBar.style.opacity = Math.min(1, pct / 50 + 0.5);
     // Check for death
     if (GameState.player.dead) {
       levelManager.loadLevel(levelManager.currentLevel);
