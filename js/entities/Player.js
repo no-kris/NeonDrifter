@@ -29,6 +29,7 @@ class Player extends Entity {
     this.y += this.vy;
     this.grounded = false;
     this.checkDetection(false);
+    this.checkBoundaries();
   }
 
   handleMovement(input) {
@@ -74,6 +75,17 @@ class Player extends Entity {
         }
       }
     }
+  }
+
+  checkBoundaries() {
+    if (this.y > 2000) {
+      this.die();
+    }
+  }
+
+  die() {
+    if (this.dead) return;
+    this.dead = true;
   }
 
   draw(ctx) {

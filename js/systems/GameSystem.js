@@ -16,29 +16,47 @@ class GameSystem {
     this.canvas.height = window.innerHeight;
   }
 
-  draw() {
+  draw(camera) {
     this.ctx.fillStyle = "#0a0a10";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawGrid();
+    this.ctx.save();
+    if (camera) {
+      this.ctx.scale(camera.zoom, camera.zoom);
+      this.ctx.translate(-camera.x, -camera.y);
+    }
+    this.drawGrid(camera);
     this.drawMap();
     this.drawPlayer();
+    this.ctx.restore();
   }
 
   // Draws the grid background
-  drawGrid() {
+  drawGrid(camera) {
     const tileSize = CONSTANTS.TILE_SIZE;
     this.ctx.strokeStyle = "#1a1a24";
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
+    let startX = 0,
+      startY = 0;
+    let endX = this.canvas.width,
+      endY = this.canvas.height;
+    if (camera) {
+      startX = camera.x;
+      startY = camera.y;
+      endX = camera.x + this.canvas.width / camera.zoom;
+      endY = camera.y + this.canvas.height / camera.zoom;
+    }
+    const gridStartX = Math.floor(startX / tileSize) * tileSize;
+    const gridStartY = Math.floor(startY / tileSize) * tileSize;
     // Vertical lines
-    for (let x = 0; x <= this.canvas.width; x += tileSize) {
-      this.ctx.moveTo(x, 0);
-      this.ctx.lineTo(x, this.canvas.height);
+    for (let x = gridStartX; x <= endX; x += tileSize) {
+      this.ctx.moveTo(x, startY);
+      this.ctx.lineTo(x, endY);
     }
     // Horizontal lines
-    for (let y = 0; y <= this.canvas.height; y += tileSize) {
-      this.ctx.moveTo(0, y);
-      this.ctx.lineTo(this.canvas.width, y);
+    for (let y = gridStartY; y <= endY; y += tileSize) {
+      this.ctx.moveTo(startX, y);
+      this.ctx.lineTo(endX, y);
     }
     this.ctx.stroke();
   }
