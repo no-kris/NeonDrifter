@@ -1,3 +1,4 @@
+import { GameState } from "./state.js";
 import GameSystem from "./systems/GameSystem.js";
 import InputSystem from "./systems/InputSystem.js";
 import LevelManager from "./systems/LevelManager.js";
@@ -9,6 +10,9 @@ const inputSystem = new InputSystem();
 levelManager.loadLevel(1);
 
 function gameLoop() {
+  if (GameState.player) {
+    GameState.player.update(inputSystem);
+  }
   game.draw();
   requestAnimationFrame(gameLoop);
 }

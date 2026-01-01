@@ -18,9 +18,9 @@ class Entity {
 
   rectIntersect(obj) {
     return (
-      this.x < obj.x + obj.w &&
+      this.x < obj.x + obj.width &&
       this.x + this.width > obj.x &&
-      this.y < obj.y + obj.h &&
+      this.y < obj.y + obj.height &&
       this.y + this.height > obj.y
     );
   }
