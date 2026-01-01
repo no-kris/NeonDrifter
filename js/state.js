@@ -1,6 +1,6 @@
 // SHARED GAME STATE DATA
 
-const GameState = {
+export const GameState = {
   player: null,
   platforms: [],
   hazards: [],

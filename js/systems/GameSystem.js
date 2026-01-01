@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../constant.js";
+import { GameState } from "../state.js";
 
 class GameSystem {
   constructor(canvasId) {
@@ -19,6 +20,7 @@ class GameSystem {
     this.ctx.fillStyle = "#0a0a10";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawGrid();
+    this.drawMap();
   }
 
   // Draws the grid background
@@ -38,6 +40,21 @@ class GameSystem {
       this.ctx.lineTo(this.canvas.width, y);
     }
     this.ctx.stroke();
+  }
+
+  drawMap() {
+    GameState.platforms.forEach((platform) => {
+      this.ctx.fillStyle = platform.color;
+      this.ctx.shadowBlur = 15;
+      this.ctx.shadowColor = platform.color;
+      this.ctx.fillRect(
+        platform.x,
+        platform.y,
+        platform.width,
+        platform.height
+      );
+      this.ctx.shadowBlur = 0;
+    });
   }
 }
 
