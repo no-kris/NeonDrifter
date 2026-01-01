@@ -1,5 +1,6 @@
 import { GameState } from "../state.js";
 import { levels } from "../data/levels.js";
+import Player from "../entities/Player.js";
 
 class LevelManager {
   constructor() {
@@ -11,6 +12,9 @@ class LevelManager {
     const data = levels[levelIndex];
     if (data) {
       GameState.platforms = data.platforms;
+    }
+    if (data.playerStart) {
+      GameState.player = new Player(data.playerStart.x, data.playerStart.y);
     }
   }
 

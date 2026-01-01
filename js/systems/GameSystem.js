@@ -21,6 +21,7 @@ class GameSystem {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawGrid();
     this.drawMap();
+    this.drawPlayer();
   }
 
   // Draws the grid background
@@ -55,6 +56,13 @@ class GameSystem {
       );
       this.ctx.shadowBlur = 0;
     });
+  }
+
+  drawPlayer() {
+    const player = GameState.player;
+    if (player) {
+      player.draw(this.ctx);
+    }
   }
 }
 
