@@ -1,6 +1,6 @@
 // GAME CONSTANTS
 
-const CONSTANTS = {
+export const CONSTANTS = {
   TILE_SIZE: 40,
   GRAVITY: 0.6,
   MOVE_SPEED: 1.2,
