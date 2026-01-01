@@ -7,7 +7,7 @@ import LevelManager from "./systems/LevelManager.js";
 const game = new GameSystem("game-canvas");
 const levelManager = new LevelManager();
 const inputSystem = new InputSystem();
-const camera = new Camera(window.innerWidth, window.innerHeight, 0.8);
+const camera = new Camera(window.innerWidth, window.innerHeight, 0.6);
 
 window.addEventListener("resize", () => {
   camera.width = window.innerWidth;

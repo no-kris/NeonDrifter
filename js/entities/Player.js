@@ -16,6 +16,7 @@ class Player extends Entity {
     this.dashCooldown = CONSTANTS.DASH_COOLDOWN;
     this.dashTimer = 0;
     this.isDashing = false;
+    this.facingRight = true;
   }
 
   update(input) {
@@ -89,11 +90,25 @@ class Player extends Entity {
   }
 
   draw(ctx) {
+    if (Math.abs(this.vx) > 0.1) {
+      this.facingRight = this.vx > 0;
+    }
+    ctx.save();
+    // Move origin to center of player to add some movement effects to the player.
+    ctx.translate(this.x, this.y + this.height);
+    const skew = this.vx * -0.02;
+    ctx.transform(1, 0, skew, 1, 0, 0);
+    // Draw the body
     ctx.fillStyle = this.color;
     ctx.shadowBlur = 20;
     ctx.shadowColor = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(0, -this.height, this.width, this.height);
     ctx.shadowBlur = 0;
+    // Draw the eye
+    ctx.fillStyle = "black";
+    const eyeX = this.facingRight ? this.width - 12 : 8;
+    ctx.fillRect(eyeX, -this.height + 8, 6, 6);
+    ctx.restore();
   }
 }
 
