@@ -26,6 +26,7 @@ class GameSystem {
     }
     this.drawGrid(camera);
     this.drawMap();
+    this.drawHazards();
     this.drawParticle();
     this.drawPlayer();
     this.ctx.restore();
@@ -73,6 +74,26 @@ class GameSystem {
         platform.width,
         platform.height
       );
+      this.ctx.shadowBlur = 0;
+    });
+  }
+
+  drawHazards() {
+    GameState.hazards.forEach((hazard) => {
+      this.ctx.fillStyle = hazard.color || "#ff0000";
+      this.ctx.shadowBlur = 10;
+      this.ctx.shadowColor = hazard.color || "#ff0000";
+      this.ctx.fillRect(hazard.x, hazard.y, hazard.width, hazard.height);
+      // White pulsating stripe
+      if (Math.random() > 0.9) {
+        this.ctx.fillStyle = "#ffffffff";
+        this.ctx.fillRect(
+          hazard.x + Math.random() * hazard.width,
+          hazard.y,
+          5,
+          hazard.height
+        );
+      }
       this.ctx.shadowBlur = 0;
     });
   }

@@ -10,8 +10,11 @@ class LevelManager {
   loadLevel(levelIndex) {
     this.clearLevel();
     const data = levels[levelIndex];
-    if (data) {
+    if (data.platforms) {
       GameState.platforms = data.platforms;
+    }
+    if (data.hazards) {
+      GameState.hazards = data.hazards;
     }
     if (data.playerStart) {
       GameState.player = new Player(data.playerStart.x, data.playerStart.y);

@@ -36,6 +36,7 @@ class Player extends Entity {
     this.grounded = false;
     this.checkDetection(false);
     this.checkBoundaries();
+    this.checkHazards();
     this.handleGlitchCharge();
   }
 
@@ -113,6 +114,15 @@ class Player extends Entity {
     if (this.y > 2000) {
       Particle.spawnParticles(this.x, this.y, true);
       this.die();
+    }
+  }
+
+  checkHazards() {
+    for (const hazard of GameState.hazards) {
+      if (this.rectIntersect(hazard)) {
+        Particle.spawnParticles(this.x, this.y, true);
+        this.die();
+      }
     }
   }
 
