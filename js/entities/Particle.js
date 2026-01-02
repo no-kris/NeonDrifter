@@ -3,7 +3,7 @@ import Entity from "./Entity.js";
 
 class Particle extends Entity {
   constructor(x, y, color, vx, vy, life) {
-    super(x, y, 6, 6);
+    super(x, y, 4, 4);
     this.color = color;
     this.vx = vx;
     this.vy = vy;
@@ -25,11 +25,12 @@ class Particle extends Entity {
   }
 
   static spawnParticles(x, y, isDeath = false) {
-    let amount = isDeath ? 20 : 3;
+    let amount = isDeath ? 100 : 3;
+    let speedAmount = isDeath ? 10 : 3;
     for (let i = 0; i < amount; i++) {
       // Explosion in all directions
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 6;
+      const speed = Math.random() * speedAmount;
       const vx = Math.cos(angle) * speed;
       const vy = Math.sin(angle) * speed;
       GameState.particles.push(new Particle(x, y, "#0ff", vx, vy, 60));
