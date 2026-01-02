@@ -12,10 +12,10 @@ class Player extends Entity {
     this.grounded = false;
     this.maxSpeed = CONSTANTS.MAX_SPEED;
     this.friction = CONSTANTS.FRICTION;
-    this.dashForce = CONSTANTS.DASH_FORCE;
     this.fallSpeed = CONSTANTS.MAX_FALL_SPEED;
     this.dashCooldown = CONSTANTS.DASH_COOLDOWN;
     this.dashTimer = 0;
+    this.activeDashTimer = 0;
     this.isDashing = false;
     this.facingRight = true;
     this.glitchDistance = 1;
@@ -27,6 +27,7 @@ class Player extends Entity {
     if (this.dead) return;
     this.handleMovement(input);
     this.handleJump(input);
+    this.handleDash(input);
     // Horizontal movement and collsion check
     this.x += this.vx;
     this.checkDetection(true);
@@ -54,6 +55,31 @@ class Player extends Entity {
     if (input.keys.jump && this.grounded) {
       this.vy = this.jumpForce;
       this.grounded = false;
+    }
+  }
+
+  handleDash(input) {
+    if (this.activeDashTimer > 0) {
+      this.activeDashTimer--;
+      const dir = this.facingRight ? 1 : -1;
+      this.vx = dir * CONSTANTS.DASH_FORCE;
+      this.vy = 0;
+      return;
+    }
+    if (this.dashTimer > 0) {
+      this.dashTimer--;
+      this.isDashing = false;
+      return;
+    }
+    if (input.keys.dash) {
+      this.dashTimer = this.dashCooldown;
+      this.activeDashTimer = CONSTANTS.DASH_DURATION;
+      this.isDashing = true;
+      this.justGlitched = true;
+      Particle.spawnParticles(
+        this.x + this.width / 2,
+        this.y + this.height / 2
+      );
     }
   }
 
@@ -110,15 +136,15 @@ class Player extends Entity {
   triggerGlitchEffect() {
     this.glitchCharge = 0;
     const direction = this.facingRight ? 1 : -1;
-    this.x += direction * 200;
-    this.vx = 0;
+    this.x += direction * 300;
+    this.vx = direction * 20;
     this.justGlitched = true;
   }
 
   shake(ctx) {
     if (this.glitchCharge > 20) {
       const shakeIntensity =
-        (this.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 4;
+        (this.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 6;
       const shakeX = (Math.random() - 0.5) * shakeIntensity;
       const shakeY = (Math.random() - 0.5) * shakeIntensity;
       ctx.translate(shakeX, shakeY);
@@ -134,7 +160,9 @@ class Player extends Entity {
     // Move origin to bottom-left of player to add some movement effects to the player.
     ctx.translate(this.x, this.y + this.height);
     // Adding a skew to make the player look like they're leaning as they move forward.
-    const skew = this.vx * -0.02;
+    let skew = this.vx * -0.02;
+    if (skew > 0.4) skew = 0.4;
+    if (skew < -0.4) skew = -0.4;
     ctx.transform(1, 0, skew, 1, 0, 0);
     this.shake(ctx);
     // Draw the body
