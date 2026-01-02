@@ -35,6 +35,7 @@ class GameSystem {
   // Draws the grid background
   drawGrid(camera) {
     const tileSize = CONSTANTS.TILE_SIZE;
+    const size = tileSize * 5;
     this.ctx.strokeStyle = "#1a1a24";
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
@@ -48,15 +49,15 @@ class GameSystem {
       endX = camera.x + this.canvas.width / camera.zoom;
       endY = camera.y + this.canvas.height / camera.zoom;
     }
-    const gridStartX = Math.floor(startX / tileSize) * tileSize * 4;
-    const gridStartY = Math.floor(startY / tileSize) * tileSize * 4;
+    const gridStartX = Math.floor(startX / size) * size;
+    const gridStartY = Math.floor(startY / size) * size;
     // Vertical lines
-    for (let x = gridStartX; x <= endX; x += tileSize * 4) {
+    for (let x = gridStartX; x <= endX; x += size) {
       this.ctx.moveTo(x, startY);
       this.ctx.lineTo(x, endY);
     }
     // Horizontal lines
-    for (let y = gridStartY; y <= endY; y += tileSize * 4) {
+    for (let y = gridStartY; y <= endY; y += size) {
       this.ctx.moveTo(startX, y);
       this.ctx.lineTo(endX, y);
     }
