@@ -34,6 +34,11 @@ function gameLoop() {
       camera.y = 0;
       return requestAnimationFrame(gameLoop);
     }
+    // Add camera recoil when the player glitches
+    if (GameState.player.justGlitched) {
+      camera.recoil(10);
+      GameState.player.justGlitched = false;
+    }
   }
   game.draw(camera);
   requestAnimationFrame(gameLoop);

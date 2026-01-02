@@ -46,15 +46,15 @@ class GameSystem {
       endX = camera.x + this.canvas.width / camera.zoom;
       endY = camera.y + this.canvas.height / camera.zoom;
     }
-    const gridStartX = Math.floor(startX / tileSize) * tileSize;
-    const gridStartY = Math.floor(startY / tileSize) * tileSize;
+    const gridStartX = Math.floor(startX / tileSize) * tileSize * 4;
+    const gridStartY = Math.floor(startY / tileSize) * tileSize * 4;
     // Vertical lines
-    for (let x = gridStartX; x <= endX; x += tileSize) {
+    for (let x = gridStartX; x <= endX; x += tileSize * 4) {
       this.ctx.moveTo(x, startY);
       this.ctx.lineTo(x, endY);
     }
     // Horizontal lines
-    for (let y = gridStartY; y <= endY; y += tileSize) {
+    for (let y = gridStartY; y <= endY; y += tileSize * 4) {
       this.ctx.moveTo(startX, y);
       this.ctx.lineTo(endX, y);
     }

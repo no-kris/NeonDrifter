@@ -19,12 +19,7 @@ class Player extends Entity {
     this.facingRight = true;
     this.glitchDistance = 1;
     this.glitchCharge = 0;
-
-    this.isGlitching = false;
-    this.glitchTimer = 0;
-    this.glitchDuration = 8; // How many frames the dash takes
-    this.glitchstartX = 0;
-    this.glitchTargetX = 0;
+    this.justGlitched = false;
   }
 
   update(input) {
@@ -115,6 +110,7 @@ class Player extends Entity {
     const direction = this.facingRight ? 1 : -1;
     this.x += direction * 200;
     this.vx = 0;
+    this.justGlitched = true;
   }
 
   shake(ctx) {
