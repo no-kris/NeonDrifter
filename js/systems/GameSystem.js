@@ -26,6 +26,7 @@ class GameSystem {
     }
     this.drawGrid(camera);
     this.drawMap();
+    this.drawParticle();
     this.drawPlayer();
     this.ctx.restore();
   }
@@ -73,6 +74,12 @@ class GameSystem {
         platform.height
       );
       this.ctx.shadowBlur = 0;
+    });
+  }
+
+  drawParticle() {
+    GameState.particles.forEach((particle) => {
+      particle.draw(this.ctx);
     });
   }
 

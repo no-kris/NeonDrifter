@@ -1,4 +1,5 @@
 import { CONSTANTS } from "./constant.js";
+import Particle from "./entities/Particle.js";
 import { GameState } from "./state.js";
 import Camera from "./systems/Camera.js";
 import GameSystem from "./systems/GameSystem.js";
@@ -11,6 +12,7 @@ const game = new GameSystem("game-canvas");
 const levelManager = new LevelManager();
 const inputSystem = new InputSystem();
 const camera = new Camera(window.innerWidth, window.innerHeight, 0.6);
+let respawnTimer = 0;
 
 window.addEventListener("resize", () => {
   camera.width = window.innerWidth;
@@ -27,21 +29,38 @@ function gameLoop() {
       (GameState.player.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 100;
     glitchBar.style.width = `${pct}%`;
     glitchBar.style.opacity = Math.min(1, pct / 50 + 0.5);
+    updateParticles();
     // Check for death
     if (GameState.player.dead) {
-      levelManager.loadLevel(levelManager.currentLevel);
-      camera.x = 0;
-      camera.y = 0;
-      return requestAnimationFrame(gameLoop);
+      if (respawnTimer === 0) respawnTimer = 30;
+      respawnTimer--;
+      if (respawnTimer <= 0) {
+        levelManager.loadLevel(levelManager.currentLevel);
+        camera.x = 0;
+        camera.y = 0;
+        respawnTimer = 0;
+        return requestAnimationFrame(gameLoop);
+      }
     }
     // Add camera recoil when the player glitches
     if (GameState.player.justGlitched) {
+      Particle.spawnParticles(GameState.player.x, GameState.player.y);
       camera.recoil(10);
       GameState.player.justGlitched = false;
     }
   }
   game.draw(camera);
   requestAnimationFrame(gameLoop);
+}
+
+function updateParticles() {
+  for (let i = GameState.particles.length - 1; i >= 0; i--) {
+    const particle = GameState.particles[i];
+    particle.update();
+    if (particle.dead) {
+      GameState.particles.splice(i, 1);
+    }
+  }
 }
 
 gameLoop();

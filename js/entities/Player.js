@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constant.js";
 import { GameState } from "../state.js";
 import Entity from "./Entity.js";
+import Particle from "./Particle.js";
 
 class Player extends Entity {
   constructor(x, y) {
@@ -84,6 +85,7 @@ class Player extends Entity {
 
   checkBoundaries() {
     if (this.y > 2000) {
+      Particle.spawnParticles(this.x, this.y, true);
       this.die();
     }
   }
@@ -124,6 +126,7 @@ class Player extends Entity {
   }
 
   draw(ctx) {
+    if (this.dead) return;
     if (Math.abs(this.vx) > 0.1) {
       this.facingRight = this.vx > 0;
     }
