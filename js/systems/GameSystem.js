@@ -27,6 +27,7 @@ class GameSystem {
     this.drawGrid(camera);
     this.drawMap();
     this.drawHazards();
+    this.drawGoal();
     this.drawParticle();
     this.drawPlayer();
     this.ctx.restore();
@@ -97,6 +98,18 @@ class GameSystem {
       }
       this.ctx.shadowBlur = 0;
     });
+  }
+
+  drawGoal() {
+    const goal = GameState.goal;
+    if (!goal) return;
+    this.ctx.fillStyle = goal.color;
+    this.ctx.shadowBlur = 20;
+    this.ctx.shadowColor = goal.color;
+    this.ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
+    this.ctx.font = "22px Courier New";
+    this.ctx.fillText("EXIT", goal.x, goal.y - 12);
+    this.ctx.shadowBlur = 0;
   }
 
   drawParticle() {

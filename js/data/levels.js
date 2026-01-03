@@ -6,5 +6,6 @@ export const levels = {
       { x: 300, y: 400, width: 200, height: 20, color: "#f0f" },
     ],
     hazards: [{ x: 600, y: 520, width: 100, height: 30, color: "#ff0000" }],
+    goal: { x: 900, y: 470, width: 50, height: 80, color: "#00ff08ff" },
   },
 };

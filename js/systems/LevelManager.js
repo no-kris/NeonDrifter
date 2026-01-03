@@ -16,6 +16,9 @@ class LevelManager {
     if (data.hazards) {
       GameState.hazards = data.hazards;
     }
+    if (data.goal) {
+      GameState.goal = data.goal;
+    }
     if (data.playerStart) {
       GameState.player = new Player(data.playerStart.x, data.playerStart.y);
     }

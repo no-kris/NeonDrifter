@@ -37,6 +37,7 @@ class Player extends Entity {
     this.checkDetection(false);
     this.checkBoundaries();
     this.checkHazards();
+    this.checkGoal();
     this.handleGlitchCharge();
   }
 
@@ -123,6 +124,13 @@ class Player extends Entity {
         Particle.spawnParticles(this.x, this.y, true);
         this.die();
       }
+    }
+  }
+
+  checkGoal() {
+    if (GameState.goal && this.rectIntersect(GameState.goal)) {
+      Particle.spawnParticles(this.x, this.y, true);
+      this.die();
     }
   }
 
