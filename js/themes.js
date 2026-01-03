@@ -6,23 +6,23 @@ const ThemesSettings = {
     {
       name: "CYBER",
       colors: {
-        bg: "#040409", // Obsidian Blue
+        bg: "#040409",
         canvas: "#080814",
-        primary: "#ffffff", // Pure White
-        secondary: "#00add8", // Solid Cerulean
-        hazard: "#ff4444", // Matte Red
-        goal: "#00ffaa", // Teal
+        primary: "#ffffff",
+        secondary: "#00add8",
+        hazard: "#ff4444",
+        goal: "#00ffaa",
         grid: "#111122",
       },
     },
     {
       name: "FOREST",
       colors: {
-        bg: "#020502", // Deepest Pine
+        bg: "#020502",
         canvas: "#060e06",
-        primary: "#ffffff", // Pure White
-        secondary: "#44aa66", // Clear Green
-        hazard: "#ffd700", // Gold
+        primary: "#ffffff",
+        secondary: "#44aa66",
+        hazard: "#ffd700",
         goal: "#ffffff",
         grid: "#0d1a0d",
       },
@@ -30,25 +30,73 @@ const ThemesSettings = {
     {
       name: "DUSK",
       colors: {
-        bg: "#2e0a13", // Deep Wine (User Choice)
-        canvas: "#2e0a13", // Match Game BG to Body BG
-        primary: "#ffffff", // Pure White
-        secondary: "#ff99cc", // Bright Pastel Pink (High Contrast on Wine)
-        hazard: "#ff3300", // Neon Orange/Red
-        goal: "#66ccff", // Sky Blue
-        grid: "#4a1525", // Lighter Wine Grid
+        bg: "#2e0a13",
+        canvas: "#2e0a13",
+        primary: "#ffffff",
+        secondary: "#ff99cc",
+        hazard: "#ff3300",
+        goal: "#66ccff",
+        grid: "#4a1525",
       },
     },
     {
-      name: "SLATE",
+      name: "MAGMA",
       colors: {
-        bg: "#080808", // Deepest Grey
-        canvas: "#101010",
-        primary: "#ffffff", // Pure White
-        secondary: "#6688aa", // Steel Blue
-        hazard: "#cc5555", // Matte Red
+        bg: "#1a0505",
+        canvas: "#260a0a",
+        primary: "#ffcc00",
+        secondary: "#ff4400",
+        hazard: "#880000",
         goal: "#ffffff",
-        grid: "#1a1a1a",
+        grid: "#330505",
+      },
+    },
+    {
+      name: "MOCHA",
+      colors: {
+        bg: "#1a1008",
+        canvas: "#261a10",
+        primary: "#ede0d4",
+        secondary: "#d4a373",
+        hazard: "#bc6c25",
+        goal: "#ffffff",
+        grid: "#3e2718",
+      },
+    },
+    {
+      name: "ROYAL",
+      colors: {
+        bg: "#100018",
+        canvas: "#1a0026",
+        primary: "#ffd700",
+        secondary: "#9933ff",
+        hazard: "#ff0066",
+        goal: "#ffffff",
+        grid: "#2a0040",
+      },
+    },
+    {
+      name: "AMBER",
+      colors: {
+        bg: "#100500",
+        canvas: "#1a0800",
+        primary: "#ffb000",
+        secondary: "#cc5500",
+        hazard: "#ff0000",
+        goal: "#ffeebb",
+        grid: "#331100",
+      },
+    },
+    {
+      name: "CANDY",
+      colors: {
+        bg: "#220011",
+        canvas: "#2d0016",
+        primary: "#ffffff",
+        secondary: "#ff66aa",
+        hazard: "#66ccff",
+        goal: "#ffff66",
+        grid: "#440022",
       },
     },
   ],
