@@ -2,6 +2,7 @@
   /* COLOR THEMES */
   --c-bg: #050505;
   --c-canvas: #0a0a10;
+  --c-button: #000;
   --c-primary: #0ff; /* Player, UI Text */
   --c-secondary: #f0f; /* Platforms, Highlights */
   --c-hazard: #f00; /* Spikes */
@@ -95,4 +96,13 @@
 
 .mr-10 {
   margin-right: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.button {
+  cursor: pointer;
+  font-family: inherit;
 }

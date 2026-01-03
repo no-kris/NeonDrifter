@@ -6,6 +6,10 @@ import GameSystem from "./systems/GameSystem.js";
 import InputSystem from "./systems/InputSystem.js";
 import LevelManager from "./systems/LevelManager.js";
 
+const mainMenu = document.getElementById("main-menu");
+const uiLayer = document.getElementById("ui-layer");
+const playBtn = document.querySelector(".play-button");
+const menuBtn = document.querySelector(".menu-button");
 const glitchBar = document.getElementById("glitch-bar");
 
 const game = new GameSystem("game-canvas");
@@ -14,12 +18,27 @@ const inputSystem = new InputSystem();
 const camera = new Camera(window.innerWidth, window.innerHeight, 0.6);
 let respawnTimer = 0;
 
+let animationId = null;
+
 window.addEventListener("resize", () => {
   camera.width = window.innerWidth;
   camera.height = window.innerHeight;
 });
 
-levelManager.loadLevel(1);
+function startGame() {
+  if (animationId) cancelAnimationFrame(animationId);
+  levelManager.loadLevel(1);
+  gameLoop();
+}
+
+function stopGame() {
+  if (animationId) cancelAnimationFrame(animationId);
+  GameState.player = null;
+  GameState.platforms = [];
+  GameState.hazards = [];
+  GameState.particles = [];
+  GameState.goal = null;
+}
 
 function gameLoop() {
   if (GameState.player) {
@@ -50,7 +69,7 @@ function gameLoop() {
     }
   }
   game.draw(camera);
-  requestAnimationFrame(gameLoop);
+  animationId = requestAnimationFrame(gameLoop);
 }
 
 function updateParticles() {
@@ -63,4 +82,14 @@ function updateParticles() {
   }
 }
 
-gameLoop();
+playBtn.addEventListener("click", () => {
+  mainMenu.classList.add("hidden");
+  uiLayer.classList.remove("hidden");
+  startGame();
+});
+
+menuBtn.addEventListener("click", () => {
+  uiLayer.classList.add("hidden");
+  mainMenu.classList.remove("hidden");
+  stopGame();
+});
