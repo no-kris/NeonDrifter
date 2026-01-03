@@ -5,17 +5,20 @@ import Camera from "./systems/Camera.js";
 import GameSystem from "./systems/GameSystem.js";
 import InputSystem from "./systems/InputSystem.js";
 import LevelManager from "./systems/LevelManager.js";
+import ThemesSettings from "./themes.js";
 
 const mainMenu = document.getElementById("main-menu");
 const uiLayer = document.getElementById("ui-layer");
 const playBtn = document.querySelector(".play-button");
 const menuBtn = document.querySelector(".menu-button");
+const themeButton = document.getElementById("theme-btn");
 const glitchBar = document.getElementById("glitch-bar");
 
 const game = new GameSystem("game-canvas");
 const levelManager = new LevelManager();
 const inputSystem = new InputSystem();
 const camera = new Camera(window.innerWidth, window.innerHeight, 0.6);
+ThemesSettings.init();
 let respawnTimer = 0;
 
 let animationId = null;
@@ -40,6 +43,12 @@ function stopGame() {
   GameState.goal = null;
 }
 
+function showMenu() {
+  uiLayer.classList.add("hidden");
+  mainMenu.classList.remove("hidden");
+  stopGame();
+}
+
 function gameLoop() {
   if (GameState.player) {
     GameState.player.update(inputSystem);
@@ -60,6 +69,11 @@ function gameLoop() {
         respawnTimer = 0;
         return requestAnimationFrame(gameLoop);
       }
+    }
+    // Check if player has completed level
+    if (GameState.player.hasWon) {
+      showMenu();
+      return;
     }
     // Add camera recoil when the player glitches
     if (GameState.player.justGlitched) {
@@ -89,7 +103,9 @@ playBtn.addEventListener("click", () => {
 });
 
 menuBtn.addEventListener("click", () => {
-  uiLayer.classList.add("hidden");
-  mainMenu.classList.remove("hidden");
-  stopGame();
+  showMenu();
+});
+
+themeButton.addEventListener("click", () => {
+  ThemesSettings.toggle();
 });

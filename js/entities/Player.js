@@ -21,6 +21,7 @@ class Player extends Entity {
     this.glitchDistance = 1;
     this.glitchCharge = 0;
     this.justGlitched = false;
+    this.hasWon = false;
   }
 
   update(input) {
@@ -129,8 +130,7 @@ class Player extends Entity {
 
   checkGoal() {
     if (GameState.goal && this.rectIntersect(GameState.goal)) {
-      Particle.spawnParticles(this.x, this.y, true);
-      this.die();
+      this.hasWon = true;
     }
   }
 
@@ -162,7 +162,7 @@ class Player extends Entity {
   shake(ctx) {
     if (this.glitchCharge > 20) {
       const shakeIntensity =
-        (this.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 6;
+        (this.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 4;
       const shakeX = (Math.random() - 0.5) * shakeIntensity;
       const shakeY = (Math.random() - 0.5) * shakeIntensity;
       ctx.translate(shakeX, shakeY);
@@ -184,9 +184,9 @@ class Player extends Entity {
     ctx.transform(1, 0, skew, 1, 0, 0);
     this.shake(ctx);
     // Draw the body
-    ctx.fillStyle = this.color;
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = this.color;
+    ctx.fillStyle = GameState.colors.primary;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = GameState.colors.primary;
     ctx.fillRect(0, -this.height, this.width, this.height);
     ctx.shadowBlur = 0;
     // Draw the eye

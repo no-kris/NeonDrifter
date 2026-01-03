@@ -75,18 +75,18 @@ canvas {
   pointer-events: auto;
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
+  font-weight: bold;
   border: 1px solid var(--c-primary);
   color: var(--c-primary);
   width: 10rem;
   transition: all 0.2s;
-  opacity: 0.7;
 }
 
 .menu-button:hover {
-  opacity: 1;
   background: var(--c-primary);
   color: var(--c-bg);
+  box-shadow: 0 0 10px var(--c-primary);
 }
 
 #main-menu {
@@ -99,8 +99,9 @@ canvas {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: #05050a;
-  z-index: 9999;
+  z-index: 90;
 }
 
 .menu-title {
@@ -132,4 +133,28 @@ canvas {
     opacity: 0.4;
     text-shadow: none;
   }
+}
+
+/* Theme Button */
+#theme-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  pointer-events: auto;
+  background: transparent;
+  border: 1px solid var(--c-primary);
+  color: var(--c-primary);
+  padding: 8px 15px;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  z-index: 100;
+  transition: all 0.2s;
+}
+
+#theme-btn:hover {
+  background: var(--c-primary);
+  color: var(--c-bg);
+  box-shadow: 0 0 10px var(--c-primary);
 }

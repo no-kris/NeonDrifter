@@ -17,7 +17,7 @@ class GameSystem {
   }
 
   draw(camera) {
-    this.ctx.fillStyle = "#0a0a10";
+    this.ctx.fillStyle = GameState.colors.canvas;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.save();
     if (camera) {
@@ -37,7 +37,7 @@ class GameSystem {
   drawGrid(camera) {
     const tileSize = CONSTANTS.TILE_SIZE;
     const size = tileSize * 5;
-    this.ctx.strokeStyle = "#1a1a24";
+    this.ctx.strokeStyle = GameState.colors.grid;
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     let startX = 0,
@@ -67,9 +67,9 @@ class GameSystem {
 
   drawMap() {
     GameState.platforms.forEach((platform) => {
-      this.ctx.fillStyle = platform.color;
-      this.ctx.shadowBlur = 15;
-      this.ctx.shadowColor = platform.color;
+      this.ctx.fillStyle = GameState.colors.secondary;
+      this.ctx.shadowBlur = 5;
+      this.ctx.shadowColor = GameState.colors.secondary;
       this.ctx.fillRect(
         platform.x,
         platform.y,
@@ -82,9 +82,9 @@ class GameSystem {
 
   drawHazards() {
     GameState.hazards.forEach((hazard) => {
-      this.ctx.fillStyle = hazard.color || "#ff0000";
-      this.ctx.shadowBlur = 10;
-      this.ctx.shadowColor = hazard.color || "#ff0000";
+      this.ctx.fillStyle = GameState.colors.hazard;
+      this.ctx.shadowBlur = 4;
+      this.ctx.shadowColor = GameState.colors.hazard;
       this.ctx.fillRect(hazard.x, hazard.y, hazard.width, hazard.height);
       // White pulsating stripe
       if (Math.random() > 0.9) {
@@ -92,7 +92,7 @@ class GameSystem {
         this.ctx.fillRect(
           hazard.x + Math.random() * hazard.width,
           hazard.y,
-          5,
+          7,
           hazard.height
         );
       }
@@ -103,9 +103,9 @@ class GameSystem {
   drawGoal() {
     const goal = GameState.goal;
     if (!goal) return;
-    this.ctx.fillStyle = goal.color;
-    this.ctx.shadowBlur = 20;
-    this.ctx.shadowColor = goal.color;
+    this.ctx.fillStyle = GameState.colors.goal;
+    this.ctx.shadowBlur = 10;
+    this.ctx.shadowColor = GameState.colors.goal;
     this.ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
     this.ctx.font = "22px Courier New";
     this.ctx.fillText("EXIT", goal.x, goal.y - 12);
