@@ -29,6 +29,28 @@ window.addEventListener("resize", () => {
   camera.height = window.innerHeight;
 });
 
+function saveProgress() {
+  const completedLevels = Object.keys(levels).filter(
+    (key) => levels[key].completed
+  );
+  localStorage.setItem(
+    "neon_drifter_progress",
+    JSON.stringify(completedLevels)
+  );
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem("neon_drifter_progress");
+  if (saved) {
+    const completedLevels = JSON.parse(saved);
+    completedLevels.forEach((key) => {
+      if (levels[key]) {
+        levels[key].completed = true;
+      }
+    });
+  }
+}
+
 function initLevelMenu() {
   levelContainer.innerHTML = "";
   Object.keys(levels).forEach((key) => {
@@ -47,11 +69,13 @@ function initLevelMenu() {
   });
 }
 
+loadProgress();
 initLevelMenu();
 
-function startGame() {
+function startGame(key) {
   if (animationId) cancelAnimationFrame(animationId);
-  levelManager.loadLevel(1);
+  levelManager.currentLevel = key;
+  levelManager.loadLevel(key);
   gameLoop();
 }
 
@@ -93,6 +117,9 @@ function gameLoop() {
     }
     // Check if player has completed level
     if (GameState.player.hasWon) {
+      levels[levelManager.currentLevel].completed = true;
+      saveProgress();
+      initLevelMenu();
       showMenu();
       return;
     }
