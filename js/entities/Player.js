@@ -9,11 +9,11 @@ class Player extends Entity {
     this.color = "#0ff";
     this.speed = CONSTANTS.MOVE_SPEED;
     this.jumpForce = CONSTANTS.JUMP_FORCE;
-    this.grounded = false;
     this.maxSpeed = CONSTANTS.MAX_SPEED;
     this.friction = CONSTANTS.FRICTION;
     this.fallSpeed = CONSTANTS.MAX_FALL_SPEED;
     this.dashCooldown = CONSTANTS.DASH_COOLDOWN;
+    this.grounded = false;
     this.dashTimer = 0;
     this.activeDashTimer = 0;
     this.isDashing = false;
@@ -22,10 +22,17 @@ class Player extends Entity {
     this.glitchCharge = 0;
     this.justGlitched = false;
     this.hasWon = false;
+    this.lastSafeX = x;
+    this.lastSafeY = y;
   }
 
   update(input) {
     if (this.dead) return;
+    if (this.grounded) {
+      this.lastSafeX = this.x;
+      this.lastSafeY = this.y;
+    }
+    // Movement handlers
     this.handleMovement(input);
     this.handleJump(input);
     this.handleDash(input);
@@ -114,9 +121,24 @@ class Player extends Entity {
 
   checkBoundaries() {
     if (this.y > 2000) {
-      Particle.spawnParticles(this.x, this.y, true);
-      this.die();
+      if (Math.random() < 0.2)
+        this.triggerPlayerRescue(); // 20% chance for player to be rescued from fall
+      else {
+        Particle.spawnParticles(this.x, this.y, true);
+        this.die();
+      }
     }
+  }
+
+  triggerPlayerRescue() {
+    this.x = this.lastSafeX;
+    this.y = this.lastSafeY - this.height - 2;
+    this.vx = 0;
+    this.vy = 0;
+    this.glitchCharge = 0;
+    const glitchMsg = document.querySelector(".glitch-save-msg");
+    glitchMsg.classList.remove("hidden");
+    setTimeout(() => glitchMsg.classList.add("hidden"), 1500);
   }
 
   checkHazards() {

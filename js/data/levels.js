@@ -56,7 +56,7 @@ export const levels = {
       { x: 5000, y: 650, width: 1000, height: 30 }, // Long spike pit under dash chain
       { x: 7600, y: 650, width: 200, height: 50 },
     ],
-    goal: { x: 8200, y: 420, width: 60, height: 80 },
+    goal: { x: 8000, y: 420, width: 60, height: 80 },
   },
   3: {
     completed: false,
@@ -70,11 +70,10 @@ export const levels = {
       { x: 2000, y: 200, width: 50, height: 500 }, // Wall 2
       { x: 2300, y: 700, width: 500, height: 50 }, // Landing 2
       { x: 3000, y: 300, width: 50, height: 400 }, // Wall 3
-      { x: 3050, y: 700, width: 400, height: 50 }, // Safety
+      { x: 3200, y: 700, width: 200, height: 50 }, // Safety
       { x: 3600, y: 300, width: 50, height: 400 }, // Wall 4 (Double Glitch check)
-      { x: 3650, y: 0, width: 50, height: 300 }, // Floating wall blocker above
       { x: 3900, y: 700, width: 800, height: 50 }, // Run
-      { x: 5000, y: 200, width: 50, height: 600 }, // The Final Great Wall
+      { x: 5000, y: 200, width: 50, height: 1000 }, // The Final Great Wall
       { x: 5300, y: 700, width: 300, height: 50 }, // Final Landing
     ],
     hazards: [
@@ -82,8 +81,8 @@ export const levels = {
       { x: 1900, y: 670, width: 100, height: 30 },
       { x: 2900, y: 670, width: 100, height: 30 },
       { x: 3500, y: 670, width: 100, height: 30 },
-      { x: 4900, y: 670, width: 100, height: 30 }, // Hazard before Final Wall
+      { x: 4900, y: 670, width: 250, height: 30 }, // Hazard before Final Wall
     ],
-    goal: { x: 5600, y: 620, width: 60, height: 80 },
+    goal: { x: 5500, y: 620, width: 60, height: 80 },
   },
 };
