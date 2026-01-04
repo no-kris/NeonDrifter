@@ -283,6 +283,7 @@ canvas {
   }
 
   body.game-active #theme-btn,
+  body.game-active #desktop-hints,
   body.game-active .donate-btn {
     display: none;
   }
@@ -299,7 +300,8 @@ canvas {
     font-size: 1.2rem;
   }
 
-  body.game-active .donate-btn {
+  body.game-active .donate-btn,
+  body.game-active #desktop-hints {
     display: none;
   }
 
@@ -317,5 +319,9 @@ canvas {
   .menu-title {
     margin-top: 3rem;
     margin-bottom: 2rem;
+  }
+
+  body.game-active #desktop-hints {
+    display: none;
   }
 }
