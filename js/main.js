@@ -75,6 +75,20 @@ initLevelMenu();
 function startGame(key) {
   if (animationId) cancelAnimationFrame(animationId);
   document.body.classList.add("game-active");
+
+  // Mobile check
+  const isMobile = window.innerWidth < 900;
+  camera.zoom = isMobile ? 0.4 : 0.6; // Zoom out more on mobile
+
+  // Request Fullscreen on mobile screens
+  if (isMobile) {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch((e) => {
+        console.log("Fullscreen optional/denied");
+      });
+    }
+  }
+
   levelManager.currentLevel = key;
   levelManager.loadLevel(key);
   gameLoop();
