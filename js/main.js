@@ -6,13 +6,14 @@ import GameSystem from "./systems/GameSystem.js";
 import InputSystem from "./systems/InputSystem.js";
 import LevelManager from "./systems/LevelManager.js";
 import ThemesSettings from "./themes.js";
+import { levels } from "./data/levels.js";
 
 const mainMenu = document.getElementById("main-menu");
 const uiLayer = document.getElementById("ui-layer");
-const playBtn = document.querySelector(".play-button");
 const menuBtn = document.querySelector(".menu-button");
 const themeButton = document.getElementById("theme-btn");
 const glitchBar = document.getElementById("glitch-bar");
+const levelContainer = document.getElementById("level-select-container");
 
 const game = new GameSystem("game-canvas");
 const levelManager = new LevelManager();
@@ -27,6 +28,26 @@ window.addEventListener("resize", () => {
   camera.width = window.innerWidth;
   camera.height = window.innerHeight;
 });
+
+function initLevelMenu() {
+  levelContainer.innerHTML = "";
+  Object.keys(levels).forEach((key) => {
+    const btn = document.createElement("button");
+    btn.innerText = `LEVEL ${key}: ${levels[key].name}`;
+    btn.classList.add("button", "play-button", "btn-hover");
+    if (levels[key].completed) {
+      btn.classList.add("btn-completed");
+    }
+    btn.addEventListener("click", () => {
+      mainMenu.classList.add("hidden");
+      uiLayer.classList.remove("hidden");
+      startGame(parseInt(key));
+    });
+    levelContainer.appendChild(btn);
+  });
+}
+
+initLevelMenu();
 
 function startGame() {
   if (animationId) cancelAnimationFrame(animationId);
@@ -95,12 +116,6 @@ function updateParticles() {
     }
   }
 }
-
-playBtn.addEventListener("click", () => {
-  mainMenu.classList.add("hidden");
-  uiLayer.classList.remove("hidden");
-  startGame();
-});
 
 menuBtn.addEventListener("click", () => {
   showMenu();

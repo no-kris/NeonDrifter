@@ -17,7 +17,12 @@
     >
       <canvas id="game-canvas"></canvas>
       <div class="scanlines"></div>
-      <button id="theme-btn">THEME: CYBER</button>
+      <button id="theme-btn" class="btn-hover">THEME: CYBER</button>
+      <button class="donate-btn btn-hover">
+        <a href="https://buymeacoffee.com/kristreska" target="_blank"
+          >UPLOAD COFFEE.EXE TO DEV</a
+        >
+      </button>
 
       <!-- UI Layer -->
       <div id="ui-layer" class="hidden">
@@ -26,8 +31,7 @@
           <span
             id="level-indicator"
             class="font-weight-normal font-size-subtitle opacity-70"
-            >LEVEL {fetch from game state}</span
-          >
+          ></span>
         </div>
         <div class="mt-10" id="desktop-hints">
           <span class="font-size-subtitle opacity-70"
@@ -43,13 +47,18 @@
             ></div>
           </div>
         </div>
-        <button class="button menu-button">Menu</button>
+        <button class="button menu-button btn-hover">Menu</button>
       </div>
 
       <!-- MAIN MENU -->
       <div id="main-menu">
         <div class="menu-title">NEON DRIFTER</div>
-        <button class="button play-button">PLAY</button>
+        <div
+          id="level-select-container"
+          class="flex flex-col align-center gap-4 f-width-100"
+        >
+          <!-- Buttons will be injected here -->
+        </div>
       </div>
     </div>
     <script type="module" src="js/main.js"></script>

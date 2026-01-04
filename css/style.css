@@ -16,6 +16,11 @@ body {
   touch-action: none;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 canvas {
   background-color: var(--c-canvas);
   z-index: 1;
@@ -53,7 +58,7 @@ canvas {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--c-primary);
   color: var(--c-primary);
-  width: 20rem;
+  width: 30rem;
   transition: all 0.2s;
   clip-path: polygon(
     20px 0,
@@ -65,10 +70,16 @@ canvas {
   );
 }
 
-.play-button:hover {
-  background: var(--c-primary);
-  color: var(--c-bg);
-  transform: translateX(10px);
+.play-button.btn-completed {
+  opacity: 0.8;
+  border-color: #4dff4d;
+}
+
+.play-button.btn-completed::before {
+  content: " ✓";
+  color: #4dff4d;
+  font-weight: bold;
+  margin-right: 0.5rem;
 }
 
 .menu-button {
@@ -81,12 +92,6 @@ canvas {
   color: var(--c-primary);
   width: 10rem;
   transition: all 0.2s;
-}
-
-.menu-button:hover {
-  background: var(--c-primary);
-  color: var(--c-bg);
-  box-shadow: 0 0 10px var(--c-primary);
 }
 
 #main-menu {
@@ -102,6 +107,10 @@ canvas {
   text-align: center;
   background-color: #05050a;
   z-index: 90;
+}
+
+#level-select-container {
+  overflow: hidden;
 }
 
 .menu-title {
@@ -138,8 +147,8 @@ canvas {
 /* Theme Button */
 #theme-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 2.5rem;
+  right: 2.5rem;
   pointer-events: auto;
   background: transparent;
   border: 1px solid var(--c-primary);
@@ -153,10 +162,27 @@ canvas {
   transition: all 0.2s;
 }
 
-#theme-btn:hover {
-  background: var(--c-primary);
-  color: var(--c-bg);
+.btn-hover:hover {
+  background: var(--c-primary) !important;
+  color: var(--c-bg) !important;
   box-shadow: 0 0 10px var(--c-primary);
+}
+
+.donate-btn {
+  position: absolute;
+  top: 2.5rem;
+  right: 20rem;
+  pointer-events: auto;
+  background: transparent;
+  border: 1px solid var(--c-primary);
+  color: var(--c-primary);
+  padding: 8px 15px;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  z-index: 100;
+  transition: all 0.2s;
 }
 
 .scanlines {

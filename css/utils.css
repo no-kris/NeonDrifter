@@ -49,6 +49,10 @@
   display: flex;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .flex-center {
   justify-content: center;
   align-items: center;
@@ -105,4 +109,8 @@
 .button {
   cursor: pointer;
   font-family: inherit;
+}
+
+.gap-4 {
+  gap: 4rem;
 }

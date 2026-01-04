@@ -8,6 +8,9 @@ class LevelManager {
   }
 
   loadLevel(levelIndex) {
+    document.getElementById(
+      "level-indicator"
+    ).innerHTML = `LEVEL ${levelIndex} ${levels[levelIndex].name}`;
     this.clearLevel();
     const data = levels[levelIndex];
     if (data.platforms) {
