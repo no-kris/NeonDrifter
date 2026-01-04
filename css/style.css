@@ -232,6 +232,50 @@ canvas {
   letter-spacing: 5px;
 }
 
+/* Base state: Hidden on desktop */
+#mobile-controls {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.control-group {
+  display: flex;
+  gap: 20px;
+  pointer-events: auto;
+}
+
+.touch-btn {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--c-primary);
+  border-radius: 50%;
+  color: var(--c-primary);
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  touch-action: none;
+  user-select: none;
+  opacity: 0.8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.touch-btn:active {
+  opacity: 1;
+  transform: scale(0.95);
+  background-color: var(--c-primary);
+  color: var(--c-bg);
+}
+
 @media (max-width: 600px) {
   #level-select-container {
     width: 95vw;
@@ -248,7 +292,7 @@ canvas {
   }
 }
 
-@media (max-width: 950px) {
+@media (max-width: 980px) {
   #theme-btn,
   .donate-btn {
     padding: 1rem;
@@ -257,6 +301,10 @@ canvas {
 
   body.game-active .donate-btn {
     display: none;
+  }
+
+  body.game-active #mobile-controls {
+    display: flex;
   }
 }
 

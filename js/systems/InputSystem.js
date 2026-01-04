@@ -12,6 +12,7 @@ class InputSystem {
   init() {
     window.addEventListener("keydown", (e) => this.handle(e, true));
     window.addEventListener("keyup", (e) => this.handle(e, false));
+    this.setUpTouchControls();
   }
 
   handle(e, isDown) {
@@ -22,6 +23,26 @@ class InputSystem {
     if (["ShiftLeft", "ShiftRight", "KeyZ"].includes(code))
       this.keys.dash = isDown;
     e.preventDefault();
+  }
+
+  setUpTouchControls() {
+    const bindBtn = (id, key) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        this.keys[key] = true;
+      });
+      btn.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        this.keys[key] = false;
+      });
+    };
+
+    bindBtn("btn-left", "left");
+    bindBtn("btn-right", "right");
+    bindBtn("btn-jump", "jump");
+    bindBtn("btn-dash", "dash");
   }
 }
 
