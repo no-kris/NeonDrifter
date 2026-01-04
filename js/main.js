@@ -74,6 +74,7 @@ initLevelMenu();
 
 function startGame(key) {
   if (animationId) cancelAnimationFrame(animationId);
+  document.body.classList.add("game-active");
   levelManager.currentLevel = key;
   levelManager.loadLevel(key);
   gameLoop();
@@ -91,6 +92,7 @@ function stopGame() {
 function showMenu() {
   uiLayer.classList.add("hidden");
   mainMenu.classList.remove("hidden");
+  document.body.classList.remove("game-active");
   stopGame();
 }
 

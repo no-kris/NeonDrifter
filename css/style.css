@@ -104,7 +104,22 @@ canvas {
 }
 
 #level-select-container {
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 50vh;
+  padding: 1rem;
+  width: 60vw;
+}
+
+/* Custom Scrollbar */
+#level-select-container::-webkit-scrollbar {
+  width: 8px;
+}
+#level-select-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+}
+#level-select-container::-webkit-scrollbar-thumb {
+  background: var(--c-primary);
+  border: 1px solid var(--c-bg);
 }
 
 .menu-title {
@@ -165,7 +180,7 @@ canvas {
 .donate-btn {
   position: absolute;
   top: 2.5rem;
-  right: 20rem;
+  right: 18rem;
   pointer-events: auto;
   background: transparent;
   border: 1px solid var(--c-primary);
@@ -215,4 +230,44 @@ canvas {
   pointer-events: none;
   font-style: italic;
   letter-spacing: 5px;
+}
+
+@media (max-width: 600px) {
+  #level-select-container {
+    width: 95vw;
+    max-height: 40vh;
+  }
+
+  body.game-active #theme-btn,
+  body.game-active .donate-btn {
+    display: none;
+  }
+
+  .donate-btn {
+    right: 16rem;
+  }
+}
+
+@media (max-width: 950px) {
+  #theme-btn,
+  .donate-btn {
+    padding: 1rem;
+    font-size: 1.2rem;
+  }
+
+  body.game-active .donate-btn {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  #main-menu {
+    padding-top: 5rem;
+    justify-content: flex-start;
+  }
+
+  .menu-title {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
 }
