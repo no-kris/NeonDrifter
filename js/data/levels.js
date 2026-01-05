@@ -123,7 +123,7 @@ export const levels = {
       { x: 400, y: 100, width: 600, height: 50 }, // Checkpoint 1
       { x: 800, y: -50, width: 150, height: 20 }, // Upper Step 1
       { x: 500, y: -200, width: 150, height: 20 }, // Upper Step 2
-      { x: 800, y: -350, width: 150, height: 20 }, // Upper Step 3
+      { x: 800, y: -350, width: 200, height: 20 }, // Upper Step 3
       { x: 400, y: -500, width: 600, height: 50 }, // Top
     ],
     hazards: [
