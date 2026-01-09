@@ -20,6 +20,10 @@ const levelManager = new LevelManager();
 const inputSystem = new InputSystem();
 const camera = new Camera(window.innerWidth, window.innerHeight, 0.6);
 ThemesSettings.init();
+
+let fps = 120;
+let fpsInterval = 1000 / fps;
+let lastTime = 0;
 let respawnTimer = 0;
 
 let animationId = null;
@@ -78,7 +82,7 @@ function startGame(key) {
 
   // Mobile check
   const isMobile = window.innerWidth < 900;
-  camera.zoom = isMobile ? 0.4 : 0.6; // Zoom out more on mobile
+  camera.zoom = isMobile ? 0.4 : 0.5; // Zoom out more on mobile
 
   // Request Fullscreen on mobile screens
   if (isMobile) {
@@ -91,7 +95,8 @@ function startGame(key) {
 
   levelManager.currentLevel = key;
   levelManager.loadLevel(key);
-  gameLoop();
+  lastTime = performance.now();
+  gameLoop(lastTime);
 }
 
 function stopGame() {
@@ -110,44 +115,48 @@ function showMenu() {
   stopGame();
 }
 
-function gameLoop() {
-  if (GameState.player) {
-    GameState.player.update(inputSystem);
-    camera.update(GameState.player);
-    const pct =
-      (GameState.player.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 100;
-    glitchBar.style.width = `${pct}%`;
-    glitchBar.style.opacity = Math.min(1, pct / 50 + 0.5);
-    updateParticles();
-    // Check for death
-    if (GameState.player.dead) {
-      if (respawnTimer === 0) respawnTimer = 30;
-      respawnTimer--;
-      if (respawnTimer <= 0) {
-        levelManager.loadLevel(levelManager.currentLevel);
-        camera.x = 0;
-        camera.y = 0;
-        respawnTimer = 0;
-        return requestAnimationFrame(gameLoop);
+function gameLoop(currentTime) {
+  animationId = requestAnimationFrame(gameLoop);
+  const elapsed = currentTime - lastTime;
+  if (elapsed > fpsInterval) {
+    lastTime = currentTime - (elapsed % fpsInterval);
+    if (GameState.player) {
+      GameState.player.update(inputSystem);
+      camera.update(GameState.player);
+      const pct =
+        (GameState.player.glitchCharge / CONSTANTS.GLITCH_THRESHOLD) * 100;
+      glitchBar.style.width = `${pct}%`;
+      glitchBar.style.opacity = Math.min(1, pct / 50 + 0.5);
+      updateParticles();
+      // Check for death
+      if (GameState.player.dead) {
+        if (respawnTimer === 0) respawnTimer = 30;
+        respawnTimer--;
+        if (respawnTimer <= 0) {
+          levelManager.loadLevel(levelManager.currentLevel);
+          camera.x = 0;
+          camera.y = 0;
+          respawnTimer = 0;
+          return requestAnimationFrame(gameLoop);
+        }
+      }
+      // Check if player has completed level
+      if (GameState.player.hasWon) {
+        levels[levelManager.currentLevel].completed = true;
+        saveProgress();
+        initLevelMenu();
+        showMenu();
+        return;
+      }
+      // Add camera recoil when the player glitches
+      if (GameState.player.justGlitched) {
+        Particle.spawnParticles(GameState.player.x, GameState.player.y);
+        camera.recoil(10);
+        GameState.player.justGlitched = false;
       }
     }
-    // Check if player has completed level
-    if (GameState.player.hasWon) {
-      levels[levelManager.currentLevel].completed = true;
-      saveProgress();
-      initLevelMenu();
-      showMenu();
-      return;
-    }
-    // Add camera recoil when the player glitches
-    if (GameState.player.justGlitched) {
-      Particle.spawnParticles(GameState.player.x, GameState.player.y);
-      camera.recoil(10);
-      GameState.player.justGlitched = false;
-    }
+    game.draw(camera);
   }
-  game.draw(camera);
-  animationId = requestAnimationFrame(gameLoop);
 }
 
 function updateParticles() {
