@@ -11,9 +11,9 @@ class Particle extends Entity {
     this.maxLife = life;
   }
 
-  update() {
-    super.update();
-    this.life--;
+  update(dt = 1) {
+    super.update(dt);
+    this.life -= dt;
     if (this.life <= 0) this.dead = true;
   }
 

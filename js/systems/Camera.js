@@ -12,7 +12,7 @@ class Camera {
     this.recoilY = recoilY;
   }
 
-  update(target) {
+  update(target, dt = 1) {
     if (!target) return;
     // Formula: TargetPosition - (ScreenHalf / Zoom)
     // Dividing by zoom to get more screen world units.
@@ -20,8 +20,8 @@ class Camera {
     this.y = target.y - this.height / 2 / this.zoom;
 
     // Add tiny micro movement to the camera
-    this.y += this.recoilY;
-    this.recoilY *= 0.5;
+    this.y += this.recoilY * dt;
+    this.recoilY *= Math.pow(0.5, dt);
     // Stop micro movement
     if (Math.abs(this.recoilY) < 0.1) this.recoilY = 0;
   }

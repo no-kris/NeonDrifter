@@ -26,41 +26,41 @@ class Player extends Entity {
     this.lastSafeY = y;
   }
 
-  update(input) {
+  update(input, dt = 1) {
     if (this.dead) return;
     if (this.grounded) {
       this.lastSafeX = this.x;
       this.lastSafeY = this.y;
     }
     // Movement handlers
-    this.handleMovement(input);
-    this.handleJump(input);
-    this.handleDash(input);
+    this.handleMovement(input, dt);
+    this.handleJump(input, dt);
+    this.handleDash(input, dt);
     // Horizontal movement and collsion check
-    this.x += this.vx;
+    this.x += this.vx * dt;
     this.checkDetection(true);
     // Vertical movement and collision check
-    this.y += this.vy;
+    this.y += this.vy * dt;
     this.grounded = false;
     this.checkDetection(false);
     this.checkBoundaries();
     this.checkHazards();
     this.checkGoal();
-    this.handleGlitchCharge();
+    this.handleGlitchCharge(dt);
   }
 
-  handleMovement(input) {
+  handleMovement(input, dt) {
     if (this.isDashing) return;
     // Horizontal movement
-    if (input.keys.left) this.vx -= this.speed;
-    if (input.keys.right) this.vx += this.speed;
-    this.vx *= this.friction;
+    if (input.keys.left) this.vx -= this.speed * dt;
+    if (input.keys.right) this.vx += this.speed * dt;
+    this.vx *= Math.pow(this.friction, dt);
     if (this.vx > this.maxSpeed) this.vx = this.maxSpeed;
     if (this.vx < -this.maxSpeed) this.vx = -this.maxSpeed;
   }
 
-  handleJump(input) {
-    this.vy += CONSTANTS.GRAVITY;
+  handleJump(input, dt) {
+    this.vy += CONSTANTS.GRAVITY * dt;
     if (this.vy > this.fallSpeed) this.vy = this.fallSpeed;
     if (input.keys.jump && this.grounded) {
       this.vy = this.jumpForce;
@@ -68,16 +68,16 @@ class Player extends Entity {
     }
   }
 
-  handleDash(input) {
+  handleDash(input, dt) {
     if (this.activeDashTimer > 0) {
-      this.activeDashTimer--;
+      this.activeDashTimer -= dt;
       const dir = this.facingRight ? 1 : -1;
       this.vx = dir * CONSTANTS.DASH_FORCE;
       this.vy = 0;
       return;
     }
     if (this.dashTimer > 0) {
-      this.dashTimer--;
+      this.dashTimer -= dt;
       this.isDashing = false;
       return;
     }
@@ -161,15 +161,15 @@ class Player extends Entity {
     this.dead = true;
   }
 
-  handleGlitchCharge() {
+  handleGlitchCharge(dt) {
     if (Math.abs(this.vx) > 1 || Math.abs(this.vy) > 1) {
-      this.glitchCharge += 0.5 + Math.random();
+      this.glitchCharge += (0.5 + Math.random()) * dt;
       if (this.glitchCharge >= CONSTANTS.GLITCH_THRESHOLD) {
         this.glitchCharge = CONSTANTS.GLITCH_THRESHOLD;
-        this.triggerGlitchEffect();
+        this.triggerGlitchEffect(dt);
       }
     } else {
-      this.glitchCharge = Math.max(0, this.glitchCharge - 0.5);
+      this.glitchCharge = Math.max(0, this.glitchCharge - 0.5 * dt);
     }
   }
 

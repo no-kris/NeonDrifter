@@ -9,9 +9,9 @@ class Entity {
     this.dead = false;
   }
 
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
+  update(dt = 1) {
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
   }
 
   draw(ctx, camera) {}
